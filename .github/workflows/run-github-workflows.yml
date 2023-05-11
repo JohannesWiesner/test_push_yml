@@ -31,3 +31,13 @@ jobs:
         echo "$PWD"
         conda env export --name test > test_output.yml
         ls -la
+    - name: add and commit exported conda environment
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Add changes"
+    - name: push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
