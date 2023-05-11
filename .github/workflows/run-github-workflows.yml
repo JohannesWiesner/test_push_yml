@@ -11,6 +11,9 @@ jobs:
   test-yml-file:
     name: test-yml-file
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
     - name: checkout repository
       uses: actions/checkout@v3
@@ -20,8 +23,10 @@ jobs:
         channel-priority: strict
         environment-file: test_input.yml
     - name: print conda info
-      shell: bash -el {0}
       run: |
         conda info
         conda list
-        conda env export --name test > test_output.yml
+    - name: export conda environment
+      run: echo "$PWD"
+      run: conda env export --name test > test_output.yml
+      run: ls -la
