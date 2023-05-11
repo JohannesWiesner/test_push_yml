@@ -27,6 +27,7 @@ jobs:
         conda info
         conda list
     - name: export conda environment
-      run: echo "$PWD"
-      run: conda env export --name test > test_output.yml
-      run: ls -la
+      run: |
+        echo "$PWD"
+        conda env export --name test > test_output.yml
+        ls -la
