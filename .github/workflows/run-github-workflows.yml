@@ -18,9 +18,10 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         channel-priority: strict
-        environment-file: environment.yml
+        environment-file: test_input.yml
     - name: print conda info
       shell: bash -el {0}
       run: |
         conda info
         conda list
+        conda env export --name test > test_output.yml
