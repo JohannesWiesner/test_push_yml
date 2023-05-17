@@ -8,37 +8,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-yml-file:
-    name: test-yml-file
+  test-yml-micromamba:
+    needs: check-tsv-file
+    name: solve .yml file with micromamba
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         shell: bash -el {0}
     steps:
     - name: checkout repository
       uses: actions/checkout@v3
-    - name: setup miniconda
-      uses: conda-incubator/setup-miniconda@v2
       with:
-        channel-priority: strict
-        environment-file: test_input.yml
-    - name: print conda info
+        ref: ${{ github.head_ref }}
+    - name: setup micromamba and solve environment
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: environment.yml
+        environment-name: ${{ runner.os }}
+    - name: export conda environment created using micromamba
       run: |
-        conda info
-        conda list
-    - name: export conda environment
-      run: |
-        echo "$PWD"
-        conda env export --name test | grep -v "^prefix: " > test_output.yml
-        ls -la
+        micromamba env export --name csp_surname_name | grep -v "^prefix: " > ./environments/environment_solved_${{ runner.os }}.yml
     - name: add and commit exported conda environment
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add test_output.yml
-        git commit -a -m "add and commit changed .yml file"
-    - name: push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+      uses: stefanzweifel/git-auto-commit-action@v4
+
+

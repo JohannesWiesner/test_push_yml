@@ -1,0 +1,6 @@
+name: csp_wiesner_johannes
+channels:
+  - conda-forge
+dependencies:
+  - python
+
