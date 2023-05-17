@@ -9,7 +9,6 @@ on:
 
 jobs:
   test-yml-micromamba:
-    needs: check-tsv-file
     name: solve .yml file with micromamba
     runs-on: ubuntu-latest
     permissions:
