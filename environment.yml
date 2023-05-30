@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python
+  - scikit-learn
   - pip
   - pip:
     - xmltodict
