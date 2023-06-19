@@ -53,3 +53,5 @@ jobs:
       shell: bash
       run: |
         ls -la
+    - name: add and commit exported conda environment
+      uses: stefanzweifel/git-auto-commit-action@v4
