@@ -49,6 +49,8 @@ jobs:
         ref: ${{ github.head_ref }}
     - name: download multiple artifacts
       uses: actions/download-artifact@v3
+      with:
+        path: ./environments
     - name: Print the final result
       shell: bash
       run: |
