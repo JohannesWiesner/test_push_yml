@@ -34,7 +34,7 @@ jobs:
           ls -la
         fi
     - name: upload artifacts
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.os }}
         path: ${{ matrix.os }}.txt
