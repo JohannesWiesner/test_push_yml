@@ -40,6 +40,7 @@ jobs:
         path: ${{ matrix.os }}.txt
   download-artifacts-and-push:
     name: download artifacts and push to repo
+    needs: solve-ymls
     runs-on: ubuntu-latest
     steps:
     - name: checkout repository
