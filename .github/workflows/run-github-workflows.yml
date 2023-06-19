@@ -28,16 +28,20 @@ jobs:
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
           touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+          touch ${{ matrix.os }}_2.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}_2.txt
           ls -la
         elif [ "$RUNNER_OS" == "Windows" ]; then
           touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+          touch ${{ matrix.os }}_2.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}_2.txt
           ls -la
         fi
     - name: upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.os }}
-        path: ${{ matrix.os }}.txt
+        path: |
+          ${{ matrix.os }}.txt
+          ${{ matrix.os }}_2.txt
   download-artifacts-and-push:
     name: download artifacts and push to repo
     needs: solve-ymls
