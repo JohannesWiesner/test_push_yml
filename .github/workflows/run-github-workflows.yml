@@ -8,9 +8,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-yml-micromamba:
+  solve-ymls:
     name: solve .yml file with micromamba
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
     defaults:
@@ -21,16 +24,11 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
-    - name: setup micromamba and solve environment
-      uses: mamba-org/setup-micromamba@v1
-      with:
-        environment-file: environment.yml
-        environment-name: ${{ runner.os }}
-    - name: export conda environment created using micromamba
+    - name: run tcy to create .yml file
       run: |
-        conda env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" | grep -v "^prefix: " > ./environments/${{ runner.os }}_solved.yml
-        conda list --explicit -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" > ./environments/csp_${{ runner.os }}_solved.txt
-    - name: add and commit exported conda environment
-      uses: stefanzweifel/git-auto-commit-action@v4
-
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+        elif [ "$RUNNER_OS" == "Windows" ]; then
+          touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+        fi
 
