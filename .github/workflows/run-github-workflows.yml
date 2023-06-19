@@ -33,4 +33,9 @@ jobs:
           touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
           ls -la
         fi
+    - name: upload artifacts
+    - uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}
+        path: ${{ matrix.os }}.txt
 
