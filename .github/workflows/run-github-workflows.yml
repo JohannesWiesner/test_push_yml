@@ -47,12 +47,8 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
     - name: download multiple artifacts
-      uses: marcofaggian/action-download-multiple-artifacts@v1
-      with:
-        names: ubuntu-latest windows-latest
-        paths: ./environments/ubuntu-latest.txt ./environments/windows-latest.txt
+      uses: actions/download-artifact@v3
     - name: Print the final result
       shell: bash
       run: |
-        cd environments
         ls -la
