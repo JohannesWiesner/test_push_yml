@@ -38,4 +38,21 @@ jobs:
       with:
         name: ${{ matrix.os }}
         path: ${{ matrix.os }}.txt
-
+  download-artifacts-and-push:
+    name: download artifacts and push to repo
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+    - name: download multiple artifacts
+      uses: marcofaggian/action-download-multiple-artifacts@v1
+      with:
+        names: ubuntu-latest windows-latest
+        paths: ./environments/ubuntu-latest.txt ./environments/windows-latest.txt
+    - name: Print the final result
+      shell: bash
+      run: |
+        cd environments
+        ls -la
