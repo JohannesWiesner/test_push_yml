@@ -28,7 +28,9 @@ jobs:
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
           touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+          ls -la
         elif [ "$RUNNER_OS" == "Windows" ]; then
           touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
+          ls -la
         fi
 
