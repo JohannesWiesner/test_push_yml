@@ -8,12 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  solve-ymls:
+  solve-environments-and-upload-artifacts:
     name: solve .yml file with micromamba
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     permissions:
       contents: write
     defaults:
@@ -24,40 +21,15 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
-    - name: run tcy to create .yml file
+    - name: setup micromamba and solve environment
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: ./environments/environment.yml
+        environment-name: ${{ runner.os }}
+    - name: export conda environment created using micromamba
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
-          touch ${{ matrix.os }}_2.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}_2.txt
-          ls -la
-        elif [ "$RUNNER_OS" == "Windows" ]; then
-          touch ${{ matrix.os }}.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}.txt
-          touch ${{ matrix.os }}_2.txt && echo ${{ matrix.os }} >> ${{ matrix.os }}_2.txt
-          ls -la
-        fi
-    - name: upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.os }}
-        path: |
-          ${{ matrix.os }}.txt
-          ${{ matrix.os }}_2.txt
-  download-artifacts-and-push:
-    name: download artifacts and push to repo
-    needs: solve-ymls
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkout repository
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
-    - name: download multiple artifacts
-      uses: actions/download-artifact@v3
-      with:
-        path: ./environments
-    - name: Print the final result
-      shell: bash
-      run: |
+        cd ./environments
+        /c/Users/runneradmin/micromamba-bin/micromamba.exe env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" | grep -v "^prefix: " > ./environments/csp_${{ runner.os }}_solved.yml
         ls -la
-    - name: add and commit exported conda environment
-      uses: stefanzweifel/git-auto-commit-action@v4
+        /c/Users/runneradmin/micromamba-bin/micromamba.exe list --explicit -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" > ./environments/csp_${{ runner.os }}_solved.txt
+        ls -la
