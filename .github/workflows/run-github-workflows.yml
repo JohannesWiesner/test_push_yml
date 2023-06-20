@@ -23,5 +23,5 @@ jobs:
         ref: ${{ github.head_ref }}
     - name: check what's inside miniconda
       run: |
-        cd /c/Miniconda/
+        cd /c/Miniconda/etc
         ls -la
