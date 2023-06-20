@@ -28,8 +28,4 @@ jobs:
         environment-name: ${{ runner.os }}
     - name: export conda environment created using micromamba
       run: |
-        cd ./environments
         /c/Users/runneradmin/micromamba-bin/micromamba.exe env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" | grep -v "^prefix: " > ./environments/csp_${{ runner.os }}_solved.yml
-        ls -la
-        /c/Users/runneradmin/micromamba-bin/micromamba.exe list --explicit -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" > ./environments/csp_${{ runner.os }}_solved.txt
-        ls -la
