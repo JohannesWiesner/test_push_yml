@@ -29,3 +29,5 @@ jobs:
     - name: export conda environment created using micromamba
       run: |
         /c/Users/runneradmin/micromamba-bin/micromamba.exe env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" | grep -v "^prefix: " > ./environments/csp_${{ runner.os }}_solved.yml
+        cd environments
+        ls -la
