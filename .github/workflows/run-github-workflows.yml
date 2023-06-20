@@ -23,5 +23,9 @@ jobs:
         ref: ${{ github.head_ref }}
     - name: check what's inside miniconda
       run: |
-        cd /c/Miniconda/etc
+        cd /c/Miniconda/etc/profile.d
         ls -la
+        cat conda.sh
+    - name: initialize conda for Git Bash
+      run: |
+        echo "/c/Miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
