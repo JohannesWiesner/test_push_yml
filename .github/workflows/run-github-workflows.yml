@@ -30,3 +30,10 @@ jobs:
       run: |
         /c/Users/runneradmin/micromamba-bin/micromamba.exe env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" | grep -v "^prefix: " > ./environments/csp_${{ runner.os }}_solved.yml
         /c/Users/runneradmin/micromamba-bin/micromamba.exe env export -p "${MAMBA_ROOT_PREFIX}/envs/${{ runner.os }}" --explicit > ./environments/csp_${{ runner.os }}_solved.txt
+    - name: upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ runner.os }}
+        path: |
+          ./environments/csp_${{ runner.os }}_solved.txt
+          ./environments/csp_${{ runner.os }}_solved.yml
