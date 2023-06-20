@@ -28,7 +28,7 @@ jobs:
         cat conda.sh
     - name: initialize conda for Git Bash
       run: |
-        echo "/c/Miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
+        echo ". /c/Miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
     - name: test conda
       run: |
         conda env list
