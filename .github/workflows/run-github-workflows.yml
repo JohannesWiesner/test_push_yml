@@ -33,3 +33,4 @@ jobs:
       run: |
         conda env list
         conda env export -n base > ./base.yml
+        ls -la
