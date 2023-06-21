@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
-    - name: check what's inside miniconda
+    - name: check what's inside the miniconda installation
       run: |
         cd /c/Miniconda/etc/profile.d
         ls -la
@@ -32,3 +32,4 @@ jobs:
     - name: test conda
       run: |
         conda env list
+        conda env export -n base > ./base.yml
