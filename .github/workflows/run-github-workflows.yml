@@ -10,7 +10,7 @@ on:
 jobs:
   solve-environments-and-upload-artifacts:
     name: solve .yml file with micromamba
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     defaults:
@@ -24,8 +24,8 @@ jobs:
     - name: initialize conda for Git Bash
       run: |
         echo ". /c/Miniconda/etc/profile.d/conda.sh" >> ~/.bashrc
-    - name: test conda
-      run: |
-        conda env list
-        conda env export -n base > ./base.yml
-        ls -la
+    - name: setup micromamba and solve environment
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        environment-file: ./environments/environment.yml
+        environment-name: test
