@@ -31,5 +31,5 @@ jobs:
         environment-name: test
     - name: export pip-packages
       run: |
-        pip freeze > requirements.txt
+        pip list --format=freeze > requirements.txt
         cat requirements.txt
